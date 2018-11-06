@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.fusiforms.mailmove</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>syslog</string>
+        <string>-s</string>
+        <string>-l</string>
+        <string>notice</string>
+        <string>somebody touched ~/Downloads/mail</string>
+    </array>
+    <key>WatchPaths</key>
+    <array>
+        <string>/Users/anthony/Downloads/mail</string>
+    </array>
+</dict>
+</plist>

@@ -4,14 +4,13 @@
 <dict>
     <key>Label</key>
     <string>com.fusiforms.mailmove</string>
+    
     <key>ProgramArguments</key>
     <array>
-        <string>syslog</string>
-        <string>-s</string>
-        <string>-l</string>
-        <string>notice</string>
-        <string>somebody touched ~/Downloads/mail</string>
+        <string>/bin/sh</string>
+        <string>/Users/anthony/develop/mail-move/mail-move-attachments.sh</string>
     </array>
+    
     <key>WatchPaths</key>
     <array>
         <string>/Users/anthony/Downloads/mail</string>

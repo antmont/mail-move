@@ -4,7 +4,7 @@ This exercise consists of three parts:
 
 1. rules within Apple Mail
 2. an AppleScript run by the mail rules
-3. a shell script run by a cron job
+3. a shell script run by `launchd`
 
 There are a lot of hard coded filepaths and dependencies, so this solution is very fragile.
 Apple limits a lot of functionality now, so there is not much that can be done about this.
@@ -19,7 +19,7 @@ It must exist, so create it with
 The shell script must be in the Library folder that Mail accesses for Applescripts, so copy it there
 (it can't be a symlink)
 
-    cp mail-save-attachment-v2.scpt ~/Library/Application\ Scripts/com.apple.mail/mail-save-attachment-v2.scpt
+    cp -f mail-save-attachment-v2.scpt ~/Library/Application\ Scripts/com.apple.mail/mail-save-attachment-v2.scpt
 
 ## mail-save-attachment AppleScript
 
@@ -61,25 +61,16 @@ There are no other actions that it needs to take.
 
 All actions are logged to a logfile, again at a hardcoded location.
 
-## crontab
+## Running the shell script (launchd)
 
-Originally the AppleScript called the shell script, but Apple broke that.
+A user agent `com.fusiforms.mailmove.plist` is run on behalf of
+the current user, and is installed in
+`~/Library/LaunchAgents`.
 
-The shell script should be regularly called to move any files that are saved.
-This could be done with an Automator folder action, but that also seems broken.
-Either `crontab` or `launchd` could be used to schedule the script,
-we are currently using `crontab` as this is a very simple task.
+The shell script should be called whenever a file is added to the temporary folder
+`~/Downloads/mail`.
+This is achieved by using launchd's `WatchPaths` key.
 
-Edit `crontab` using:
-
-    env EDITOR=nano crontab -e
-
-To run the script every hour, add a line to the `crontab` similar to:
-
-    * 1 * * * sh ~/develop/mail-move/mail-move-attachments.sh
-
-Save the file with `CTRL-O` `RETURN` `CTRL-X`
-
-The `crontab` can be listed with
-
-    crontab -l
+The shell script is called by using `ProgramArguments` of
+`/bin/sh` and `/Users/<username>/develop/mail-move/mail-move-attachments.sh`
+so that settting permissions on the shellscript is not required.

@@ -2,6 +2,8 @@
 
 logFile=~/develop/mail-move/mail-move.log
 
+# Comment out the following logfile enty once debugging of launchd
+# is complete.
 echo $(date +%b%e%t%T) $0: script initiated >> $logFile
 
 for fullfilename in ~/Downloads/mail/*.*; do
